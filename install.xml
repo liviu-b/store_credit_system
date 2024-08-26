@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Store Credit System</name>
+    <code>store_credit_system</code>
+    <version>1.0.0</version>
+    <author>Your Name</author>
+    <link>http://www.example.com</link>
+    <file path="admin/view/template/common/column_left.twig">
+        <operation>
+            <search><![CDATA[</ul>
+  </li>
+  {{ endcatalog }}]]></search>
+            <add position="before"><![CDATA[
+  <li id="menu-store-credit">
+    <a href="#collapse17" data-toggle="collapse" class="parent collapsed" aria-expanded="false">
+      <i class="fa fa-credit-card"></i> <span>Store Credit</span>
+    </a>
+    <ul id="collapse17" class="collapse" aria-expanded="false" style="height: 0px;">
+      <li><a href="{{ url }}" data-toggle="collapse" aria-expanded="false" class="parent collapsed">Manage Credits</a></li>
+    </ul>
+  </li>
+  ]]></add>
+        </operation>
+    </file>
+    <file path="admin/controller/common/column_left.php">
+        <operation>
+            <search><![CDATA['user_token=' . $this->session->data['user_token']]]></search>
+            <add position="after"><![CDATA[
+, 'url' => $this->url->link('extension/module/store_credit/manage', 'user_token=' . $this->session->data['user_token'], true)
+            ]]></add>
+        </operation>
+    </file>
+    <file path="admin/controller/extension/module/store_credit.php">
+        <operation>
+            <search><![CDATA[<?php]]></search>
+            <add position="after"><![CDATA[
+public function manage() {
+    $this->load->language('extension/module/store_credit');
+    $this->document->setTitle($this->language->get('heading_title'));
+    $this->load->model('extension/module/store_credit');
+
+    $data['credits'] = $this->model_extension_module_store_credit->getCredits();
+
+    $data['header'] = $this->load->controller('common/header');
+    $data['column_left'] = $this->load->controller('common/column_left');
+    $data['footer'] = $this->load->controller('common/footer');
+
+    $this->response->setOutput($this->load->view('extension/module/store_credit_manage', $data));
+}
+            ]]></add>
+        </operation>
+    </file>
+</modification>

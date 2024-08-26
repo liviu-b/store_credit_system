@@ -1,0 +1,16 @@
+<div class="store-credit">
+  <h1>{{ heading_title }}</h1>
+  {% if credits %}
+  <ul>
+    {% for credit in credits %}
+    <li>{{ credit.amount }} credits on {{ credit.date_added }}</li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p>No store credits available.</p>
+  {% endif %}
+  <form id="form-store-credit" action="index.php?route=extension/module/store_credit/add" method="post">
+    <input type="number" name="amount" placeholder="Enter credit amount" required>
+    <button type="submit">Add Credits</button>
+  </form>
+</div>

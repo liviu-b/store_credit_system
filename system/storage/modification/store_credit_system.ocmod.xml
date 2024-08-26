@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <name>Store Credit System</name>
+    <code>store_credit_system</code>
+    <version>1.0.0</version>
+    <author>Your Name</author>
+    <link>http://www.example.com</link>
+    <file path="catalog/controller/checkout/confirm.php">
+        <operation>
+            <search><![CDATA[$this->cart->clear();]]></search>
+            <add position="before"><![CDATA[
+                // Store Credit Deduction Logic Here
+            ]]></add>
+        </operation>
+    </file>
+    <file path="catalog/model/checkout/order.php">
+        <operation>
+            <search><![CDATA[$this->db->query("INSERT INTO " . oc_customer_credit . "order_product]]></search>
+            <add position="before"><![CDATA[
+                // Store Credit Apply Logic Here
+            ]]></add>
+        </operation>
+    </file>
+</modification>
